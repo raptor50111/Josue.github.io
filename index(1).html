@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Josué Espino — Data Scientist</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0A0F1C;
+  --surface:#111827;
+  --card:#161E2E;
+  --accent:#3B82F6;
+  --accent2:#06D6A0;
+  --accent3:#F59E0B;
+  --text:#F1F5F9;
+  --muted:#94A3B8;
+  --border:rgba(255,255,255,0.07);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden;}
+
+/* noise texture overlay */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");opacity:.4;pointer-events:none;z-index:0;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 60px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(12px);background:rgba(10,15,28,0.8);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--text);text-decoration:none;letter-spacing:-0.5px;}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;gap:36px;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 60px 80px;position:relative;overflow:hidden;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%);}
+.hero-glow{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(59,130,246,0.12) 0%,transparent 70%);top:-100px;right:-100px;pointer-events:none;}
+.hero-glow2{position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(6,214,160,0.08) 0%,transparent 70%);bottom:0;left:200px;pointer-events:none;}
+.hero-content{position:relative;z-index:1;max-width:780px;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);padding:6px 16px;border-radius:100px;font-size:13px;color:var(--accent);margin-bottom:28px;animation:fadeUp .6s ease both;}
+.hero-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent2);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.3);}}
+h1{font-family:'Syne',sans-serif;font-size:clamp(48px,6vw,80px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:24px;animation:fadeUp .6s .1s ease both;}
+h1 .name-accent{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:18px;color:var(--muted);max-width:560px;margin-bottom:40px;font-weight:300;animation:fadeUp .6s .2s ease both;}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;animation:fadeUp .6s .3s ease both;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:8px;font-size:15px;font-weight:500;text-decoration:none;transition:all .2s;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;}
+.btn-primary{background:var(--accent);color:white;}
+.btn-primary:hover{background:#2563EB;transform:translateY(-1px);}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border);}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+.hero-stats{display:flex;gap:48px;margin-top:64px;padding-top:48px;border-top:1px solid var(--border);animation:fadeUp .6s .4s ease both;}
+.stat-num{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--text);}
+.stat-num span{color:var(--accent2);}
+.stat-label{font-size:13px;color:var(--muted);margin-top:2px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* SECTIONS */
+section{padding:100px 60px;position:relative;}
+.section-label{font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
+.section-title{font-family:'Syne',sans-serif;font-size:clamp(32px,4vw,48px);font-weight:800;letter-spacing:-1px;margin-bottom:16px;}
+.section-sub{color:var(--muted);max-width:560px;font-weight:300;}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:64px;}
+.about-text p{color:var(--muted);margin-bottom:20px;font-size:17px;line-height:1.8;}
+.about-text p strong{color:var(--text);font-weight:500;}
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.skill-chip{background:var(--card);border:1px solid var(--border);padding:12px 16px;border-radius:8px;font-size:14px;color:var(--muted);display:flex;align-items:center;gap:10px;transition:all .2s;}
+.skill-chip:hover{border-color:var(--accent);color:var(--text);}
+.skill-chip::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent2);flex-shrink:0;}
+
+/* PROJECTS */
+.projects-bg{background:var(--surface);}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px;margin-top:64px;}
+.project-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:36px;transition:all .3s;position:relative;overflow:hidden;}
+.project-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(59,130,246,0.05),transparent);opacity:0;transition:opacity .3s;}
+.project-card:hover{border-color:rgba(59,130,246,0.4);transform:translateY(-4px);}
+.project-card:hover::before{opacity:1;}
+.project-emoji{font-size:36px;margin-bottom:20px;}
+.project-tag{display:inline-block;background:rgba(59,130,246,0.1);color:var(--accent);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:16px;}
+.project-card h3{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;margin-bottom:12px;letter-spacing:-0.5px;}
+.project-card p{color:var(--muted);font-size:15px;line-height:1.7;margin-bottom:24px;}
+.project-meta{margin-bottom:24px;}
+.project-meta-item{display:flex;gap:12px;margin-bottom:12px;font-size:14px;}
+.project-meta-item strong{color:var(--text);font-weight:500;min-width:80px;}
+.project-meta-item span{color:var(--muted);}
+.project-tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;}
+.tool-tag{background:rgba(255,255,255,0.05);border:1px solid var(--border);padding:4px 12px;border-radius:6px;font-size:12px;color:var(--muted);}
+.project-approved{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--accent2);margin-top:8px;}
+.project-approved::before{content:'✓';font-weight:700;}
+.project-footer{display:flex;align-items:center;justify-content:space-between;margin-top:20px;flex-wrap:wrap;gap:12px;}
+.btn-code{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:6px;font-size:13px;font-weight:500;text-decoration:none;border:1px solid var(--accent);color:var(--accent);background:rgba(59,130,246,0.08);transition:all .2s;}
+.btn-code:hover{background:var(--accent);color:white;}
+
+/* EXPERIENCE */
+.timeline{margin-top:64px;position:relative;}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--border);}
+.timeline-item{padding-left:40px;padding-bottom:48px;position:relative;}
+.timeline-item::before{content:'';position:absolute;left:-5px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);}
+.timeline-date{font-size:12px;color:var(--accent);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.timeline-item h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:4px;}
+.timeline-company{color:var(--muted);font-size:14px;margin-bottom:16px;}
+.timeline-item ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.timeline-item li{color:var(--muted);font-size:15px;padding-left:20px;position:relative;}
+.timeline-item li::before{content:'→';position:absolute;left:0;color:var(--accent2);font-size:12px;top:3px;}
+
+/* CONTACT */
+.contact-bg{background:var(--surface);}
+.contact-inner{max-width:640px;margin:0 auto;text-align:center;}
+.contact-inner .section-label{display:block;}
+.contact-inner .section-title{margin:0 auto 16px;}
+.contact-inner .section-sub{margin:0 auto 48px;}
+.contact-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;}
+.contact-link{display:inline-flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);padding:14px 24px;border-radius:10px;color:var(--text);text-decoration:none;font-size:14px;transition:all .2s;}
+.contact-link:hover{border-color:var(--accent);color:var(--accent);}
+
+/* FOOTER */
+footer{padding:32px 60px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+footer p{color:var(--muted);font-size:13px;}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+@media(max-width:768px){
+  nav,section,.hero{padding-left:24px;padding-right:24px;}
+  .about-grid{grid-template-columns:1fr;}
+  .hero-stats{gap:24px;}
+  .nav-links{display:none;}
+  footer{flex-direction:column;gap:8px;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#"><span>J</span>osué Espino</a>
+  <div class="nav-links">
+    <a href="#about">Acerca de</a>
+    <a href="#projects">Proyectos</a>
+    <a href="#experience">Experiencia</a>
+    <a href="#contact">Contacto</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Disponible para nuevas oportunidades</div>
+    <h1>Arquitecto que<br>habla el idioma<br>de los <span class="name-accent">datos.</span></h1>
+    <p class="hero-sub">Data Scientist en formación con base sólida en arquitectura y supervisión de construcción. Combino precisión técnica, pensamiento espacial y Python para resolver problemas de negocio reales.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#projects">Ver proyectos</a>
+      <a class="btn btn-outline" href="mailto:Josue.espino00@yahoo.com">Contactarme</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">3<span>+</span></div>
+        <div class="stat-label">Proyectos de Data Science</div>
+      </div>
+      <div>
+        <div class="stat-num">16<span>k</span></div>
+        <div class="stat-label">Registros analizados</div>
+      </div>
+      <div>
+        <div class="stat-num">5<span>+</span></div>
+        <div class="stat-label">Años de experiencia técnica</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-label reveal">Sobre mí</div>
+  <div class="section-title reveal">Transición con propósito</div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>Mi carrera comenzó en la <strong>arquitectura</strong>, diseñando planos y supervisando obras donde cada decisión tenía que ser precisa y respaldada por información real de campo.</p>
+      <p>Con el tiempo descubrí que lo que más me apasionaba no era el edificio en sí, sino <strong>el análisis detrás de él</strong>: interpretar datos, detectar desviaciones, tomar decisiones basadas en evidencia.</p>
+      <p>Esa revelación me llevó al mundo de la ciencia de datos. Me formé en el bootcamp de <strong>TripleTen</strong>, donde trabajé con Python, SQL, Pandas y SciPy en proyectos reales con datasets complejos.</p>
+      <p>Hoy mi meta es contribuir a equipos donde <strong>los datos sean el centro de la toma de decisiones</strong>.</p>
+    </div>
+    <div class="reveal">
+      <div style="margin-bottom:20px;font-size:14px;color:var(--muted);font-weight:500;letter-spacing:1px;text-transform:uppercase;">Stack técnico</div>
+      <div class="skills-grid">
+        <div class="skill-chip">Python</div>
+        <div class="skill-chip">SQL</div>
+        <div class="skill-chip">Pandas</div>
+        <div class="skill-chip">NumPy</div>
+        <div class="skill-chip">Matplotlib</div>
+        <div class="skill-chip">Seaborn</div>
+        <div class="skill-chip">SciPy</div>
+        <div class="skill-chip">AutoCAD</div>
+        <div class="skill-chip">Revit</div>
+        <div class="skill-chip">Scikit-learn</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="projects-bg">
+  <div class="section-label reveal">Proyectos</div>
+  <div class="section-title reveal">Análisis con impacto real</div>
+  <p class="section-sub reveal">Cada proyecto fue revisado y aprobado por mentores de TripleTen con datos reales y conclusiones accionables.</p>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-emoji">🎮</div>
+      <div class="project-tag">Análisis de mercado</div>
+      <h3>Tendencias en la Industria de Videojuegos</h3>
+      <p>Analicé más de 16,700 videojuegos para identificar qué plataformas, géneros y regiones generan mayores ventas y orientar la estrategia comercial para 2017.</p>
+      <div class="project-meta">
+        <div class="project-meta-item"><strong>El reto</strong><span>¿Qué variables predicen el éxito global de un videojuego?</span></div>
+        <div class="project-meta-item"><strong>Resultado</strong><span>Insights accionables por región (NA, EU, JP) con validación estadística.</span></div>
+      </div>
+      <div class="project-tools">
+        <span class="tool-tag">Python</span><span class="tool-tag">Pandas</span><span class="tool-tag">NumPy</span><span class="tool-tag">Matplotlib</span><span class="tool-tag">SciPy</span><span class="tool-tag">Welch t-test</span>
+      </div>
+      <div class="project-footer">
+        <div class="project-approved">Aprobado por mentor TripleTen</div>
+        <a class="btn-code" href="https://github.com/JosueEspino501/data-science-projects/blob/main/proyecto%20sprint%206.ipynb" target="_blank">⟨/⟩ Ver código</a>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-emoji">📱</div>
+      <div class="project-tag">Análisis de ingresos</div>
+      <h3>Tarifas de Telecomunicaciones: Surf vs Ultimate</h3>
+      <p>Modelé el comportamiento de 500 clientes de Megaline para determinar cuál plan de prepago genera más ingresos, aplicando reglas reales de facturación.</p>
+      <div class="project-meta">
+        <div class="project-meta-item"><strong>El reto</strong><span>¿Cuál plan maximiza los ingresos de la operadora?</span></div>
+        <div class="project-meta-item"><strong>Resultado</strong><span>El plan Ultimate genera ingresos significativamente más altos (α = 0.05).</span></div>
+      </div>
+      <div class="project-tools">
+        <span class="tool-tag">Python</span><span class="tool-tag">Pandas</span><span class="tool-tag">Seaborn</span><span class="tool-tag">SciPy</span><span class="tool-tag">Feature Engineering</span>
+      </div>
+      <div class="project-footer">
+        <div class="project-approved">Aprobado por mentor TripleTen</div>
+        <a class="btn-code" href="https://github.com/JosueEspino501/data-science-projects/blob/main/proyecto%20sprint%205.ipynb" target="_blank">⟨/⟩ Ver código</a>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-emoji">🚕</div>
+      <div class="project-tag">SQL + Análisis urbano</div>
+      <h3>Viajes en Taxi en Chicago</h3>
+      <p>Extraje y analicé datos de viajes en Chicago con SQL y Python para identificar patrones de demanda y probar si el clima afecta la duración de viajes al aeropuerto O'Hare.</p>
+      <div class="project-meta">
+        <div class="project-meta-item"><strong>El reto</strong><span>¿Influye el clima en la duración de viajes los sábados lluviosos?</span></div>
+        <div class="project-meta-item"><strong>Resultado</strong><span>Hipótesis validada con Student t-test. Visualizaciones para stakeholders no técnicos.</span></div>
+      </div>
+      <div class="project-tools">
+        <span class="tool-tag">SQL</span><span class="tool-tag">JOINs</span><span class="tool-tag">Python</span><span class="tool-tag">Pandas</span><span class="tool-tag">Matplotlib</span><span class="tool-tag">Student t-test</span>
+      </div>
+      <div class="project-footer">
+        <div class="project-approved">Aprobado por mentor TripleTen</div>
+        <a class="btn-code" href="https://github.com/JosueEspino501/data-science-projects/blob/main/proyecto%20sprint%208.ipynb" target="_blank">⟨/⟩ Ver código</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="experience">
+  <div class="section-label reveal">Experiencia</div>
+  <div class="section-title reveal">Trayectoria profesional</div>
+  <div class="timeline">
+
+    <div class="timeline-item reveal">
+      <div class="timeline-date">2024 – Presente</div>
+      <h3>Drafter / Analista de Planos</h3>
+      <div class="timeline-company">AutoZone BTSSC</div>
+      <ul>
+        <li>Gestión de datos espaciales de 10+ proyectos semanales con alta precisión.</li>
+        <li>Coordinación de equipos multidisciplinarios remotos y control de versiones CAD.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-date">2023</div>
+      <h3>Supervisor de Obra</h3>
+      <div class="timeline-company">EMYCSA</div>
+      <ul>
+        <li>Supervisión de bodega industrial de 11,000 m² con estructura metálica.</li>
+        <li>Gestión de nómina de 25 trabajadores y reportes de desviaciones para toma de decisiones.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-date">2022</div>
+      <h3>Supervisor de Obra</h3>
+      <div class="timeline-company">INVOLTO</div>
+      <ul>
+        <li>Dirección de construcción de residencia de 350 m², coordinando múltiples oficios.</li>
+        <li>Reportes semanales con indicadores de progreso físico vs. programado.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-date">2021</div>
+      <h3>Drafter</h3>
+      <div class="timeline-company">AEG Construction Firm</div>
+      <ul>
+        <li>Diseño de planos arquitectónicos residenciales en AutoCAD y modelos 3D en SketchUp.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<section id="contact" class="contact-bg">
+  <div class="contact-inner">
+    <span class="section-label reveal">Contacto</span>
+    <div class="section-title reveal">Hablemos</div>
+    <p class="section-sub reveal">Abierto a oportunidades en análisis de datos, Data Science y roles donde pueda aportar valor desde el primer día.</p>
+    <div class="contact-links reveal">
+      <a class="contact-link" href="mailto:Josue.espino00@yahoo.com">✉ Josue.espino00@yahoo.com</a>
+      <a class="contact-link" href="https://linkedin.com/in/espino-Josue" target="_blank">💼 LinkedIn</a>
+      <a class="contact-link" href="tel:+526141059703">📞 614 105 97 03</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Josué Espino · Chihuahua, México</p>
+  <p style="color:var(--muted);font-size:13px;">Data Scientist | Drafter</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); } });
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
